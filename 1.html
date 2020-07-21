@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.box {
+   margin: 50px;
+
+}
+
+.small {
+    width: 229px;
+    height: 250px;
+    border: 1px solid black;
+    text-align: center;
+    position: relative;
+    float: left;
+}
+
+.mask {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(214, 111, 193, 0.3);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+.big {
+    width: 350px;
+    height: 350px;
+    border: 1px solid black;
+    float: left;
+    overflow: hidden;
+    /* display: none; */
+}
+
+    </style>
+    <div class="box">
+        <div class="small">
+            <img src="https://img.alicdn.com/imgextra/i2/1825542166/O1CN013MBYp21Rs4UGlrR4D_!!0-item_pic.jpg_430x430q90.jpg" width="229" height="249" alt=""/>
+    
+            <div class="mask"></div>
+        </div>
+        <div class="big">
+            <img src="https://img.alicdn.com/imgextra/i2/1825542166/O1CN013MBYp21Rs4UGlrR4D_!!0-item_pic.jpg_430x430q90.jpg" width="549" height="600" alt=""/>
+        </div>
+    </div>
+
+
+    <script>
+    
+    var box=document.querySelector(".box");
+    var small=document.querySelector(".small");
+    var mask=document.querySelector(".mask");
+    var big=document.querySelector(".big");
+    
+    var pic=big.children[0];
+    
+    //鼠标移动到图片上出现两个效果
+    small.onmouseover=function(){
+        mask.style.display="block";
+        big.style.display="block";
+    }
+    small.onmouseout=function(){
+        mask.style.display="none";
+        big.style.display="none"
+    }
+        //设置小图的焦点框，跟随鼠标；
+    small.onmousemove=function(e){
+        var marginL=box.offsetLeft;
+        var marginT=box.offsetTop;
+       
+        var currentX= e.clientX;
+        var currentY= e.clientY;
+        console.log(e.clientX)
+        console.log(e.clientY)
+        var x=currentX-marginL-mask.offsetWidth/2;
+        var y=currentY-marginT-mask.offsetHeight/2;
+
+        //给焦点框设置移动区域
+        if(x<0){x=0;}
+        if(x>small.offsetWidth-mask.offsetWidth){x=small.offsetWidth-mask.offsetWidth};
+        if(y<0){y=0;}
+        if(y>small.offsetHeight-mask.offsetHeight){y=small.offsetHeight-mask.offsetHeight};
+        mask.style.left=x+"px";
+        mask.style.top=y+"px";
+        //设置大盒子中显示的内容
+        var relativeX=mask.offsetLeft;
+        var relativeY=mask.offsetTop;
+        var proporationX=pic.offsetWidth/small.offsetWidth;
+        var proporationY=pic.offsetHeight/small.offsetWidth;
+        pic.style.marginLeft=-relativeX*proporationX+"px";
+        pic.style.marginTop=-relativeY*proporationY+"px";
+    }
+    </script>
+</html>
